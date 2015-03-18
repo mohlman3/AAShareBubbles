@@ -25,7 +25,6 @@
 {
     NSMutableArray *bubbles;
     NSMutableDictionary *bubbleIndexTypes;
-
     UIView *faderView;
 }
 
@@ -272,6 +271,10 @@
     [bubbles addObject:button];
     bubbleIndexTypes[@(bubbles.count - 1)] = @(buttonId);
     
+    [self addFlagViewAtPoint:CGPointMake(iconView.frame.origin.x + iconView.frame.size.width, 0)
+                      inView:button
+                 forButtonId:buttonId];
+    
     [self addSubview:button];
 }
 
@@ -304,6 +307,86 @@
     UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return img;
+}
+
+-(void)addFlagViewAtPoint:(CGPoint)point inView:(UIView *)view forButtonId:(int)buttonId
+{
+    int flagValue = 0;
+    if ([self.delegate respondsToSelector:@selector(aaShareBubbles:flagValueForBubble:)])
+    {
+        flagValue = [self.delegate aaShareBubbles:self flagValueForBubble:buttonId];
+    }
+    
+    if (flagValue < 1)
+    {
+        return;
+    }
+    
+    CGSize size = [self getFlagSizeForBubble:buttonId];
+    if (size.width == 0 && size.height == 0)
+    {
+        size = CGSizeMake(22.0, 22.0);
+    }
+    
+    UIView *flagView = [[UIView alloc] initWithFrame:CGRectMake(point.x, point.y, size.width, size.height)];
+    flagView.backgroundColor = [self getFlagBackgroundColorForBubble:buttonId];
+    flagView.layer.cornerRadius = flagView.bounds.size.width / 2;
+    [view addSubview:flagView];
+    
+    UILabel *flagLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    flagLabel.textColor = [self getFlagTextColorForBubble:buttonId];
+    flagLabel.font = [self getFontForBubble:buttonId];
+    flagLabel.textAlignment = NSTextAlignmentCenter;
+    flagLabel.text = [NSString stringWithFormat:@"%d", flagValue];
+    [flagView addSubview:flagLabel];
+}
+
+-(UIColor *)getFlagBackgroundColorForBubble:(int)bubbleId
+{
+    if ([self.delegate respondsToSelector:@selector(aaShareBubbles:flagBackgroundColorForBubble:)])
+    {
+        return [self.delegate aaShareBubbles:self flagBackgroundColorForBubble:bubbleId];
+    }
+    else
+    {
+        return [UIColor redColor];
+    }
+}
+
+-(UIColor *)getFlagTextColorForBubble:(int)bubbleId
+{
+    if ([self.delegate respondsToSelector:@selector(aaShareBubbles:flagTextColorForBubble:)])
+    {
+        return [self.delegate aaShareBubbles:self flagTextColorForBubble:bubbleId];
+    }
+    else
+    {
+        return [UIColor whiteColor];
+    }
+}
+
+-(UIFont *)getFontForBubble:(int)bubbleId
+{
+    if ([self.delegate respondsToSelector:@selector(aaShareBubbles:flagFontForBubble:)])
+    {
+        return [self.delegate aaShareBubbles:self flagFontForBubble:bubbleId];
+    }
+    else
+    {
+        return [UIFont systemFontOfSize:14.0];
+    }
+}
+
+-(CGSize)getFlagSizeForBubble:(int)bubbleId
+{
+    if ([self.delegate respondsToSelector:@selector(aaShareBubbles:flagSizeForBubble:)])
+    {
+        return [self.delegate aaShareBubbles:self flagSizeForBubble:bubbleId];
+    }
+    else
+    {
+        return CGSizeMake(22.0, 22.0);
+    }
 }
 
 @end
