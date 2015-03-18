@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
 
 # Source Info
   s.platform     =  :ios, '5.0'
-  s.source       =  { :git => 'https://github.com/mixdesign/AAShareBubbles.git', :tag => "v1.1.0" }
+  s.source       =  { :git => 'https://github.com/mixdesign/AAShareBubbles.git', :branch => "master" }
   s.source_files = 'AAShareBubbles/AAShareBubbles.{h,m}'
   s.resources    = 'AAShareBubbles/AAShareBubbles.bundle'
   s.requires_arc = true
