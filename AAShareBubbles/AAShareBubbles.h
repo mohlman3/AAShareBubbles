@@ -102,4 +102,11 @@ typedef enum AAShareBubbleType : int {
 
 // On bubbles hide
 -(void)aaShareBubblesDidHide:(AAShareBubbles *)shareBubbles;
+
+-(int)aaShareBubbles:(AAShareBubbles *)shareBubbles flagValueForBubble:(int)bubbleId;
+-(UIColor *)aaShareBubbles:(AAShareBubbles *)shareBubbles flagBackgroundColorForBubble:(int)bubbleId;
+-(UIColor *)aaShareBubbles:(AAShareBubbles *)shareBubbles flagTextColorForBubble:(int)bubbleId;
+-(UIFont *)aaShareBubbles:(AAShareBubbles *)shareBubbles flagFontForBubble:(int)bubbleId;
+-(CGSize)aaShareBubbles:(AAShareBubbles *)shareBubbles flagSizeForBubble:(int)bubbleId;
+
 @end

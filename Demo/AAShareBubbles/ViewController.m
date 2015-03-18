@@ -37,6 +37,7 @@
         shareBubbles = nil;
     }
     shareBubbles = [[AAShareBubbles alloc] initWithPoint:_shareButton.center radius:radius inView:self.view];
+   
     shareBubbles.delegate = self;
     shareBubbles.bubbleRadius = bubbleRadius;
     shareBubbles.showFacebookBubble = YES;
@@ -112,6 +113,16 @@
 
 -(void)aaShareBubblesDidHide:(AAShareBubbles*)bubbles {
     NSLog(@"All Bubbles hidden");
+}
+
+-(int)aaShareBubbles:(AAShareBubbles *)shareBubbles flagValueForBubble:(int)bubbleId
+{
+    if (bubbleId == AAShareBubbleTypeReddit)
+    {
+        return 1;
+    }
+    
+    return 0;
 }
 
 #pragma mark -
